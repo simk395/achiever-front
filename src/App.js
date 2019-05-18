@@ -1,13 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Adapter from './Adapter'
+import {Switch, Route } from 'react-router-dom'
+import Landing from './containers/Landing'
+import User from './components/User'
+import './css/style.css';
 
 function App() {
-  Adapter.ownedGames('76561198062849350').then(console.log)
   return (
-    <div className="App">
-      hello
+    <div className="app bg bg-full">
+      <Switch>
+        <Route path='/user/steamid=:id' component={User}/>
+        <Route path='/' component={Landing}/>
+      </Switch>
     </div>
   );
 }

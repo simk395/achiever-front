@@ -1,0 +1,31 @@
+.landing{
+    margin: 0 20%;
+    height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title{
+    font-size: 14rem;
+    text-align: center;
+    
+}
+
+.search{
+    color: black;
+    font-size: 2rem;
+    height: 3rem;
+    width: 50%;
+
+    &-help, &-help a{
+        font-size:1.5rem;
+        font-style: italic;
+    }
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button{
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+}

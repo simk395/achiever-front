@@ -1,0 +1,8 @@
+.bg{
+    background: rgb(23,26,33);
+
+    &-full{
+        height: 100vh;
+        width: 100vw;
+    }
+}
