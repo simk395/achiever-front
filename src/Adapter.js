@@ -1,6 +1,12 @@
 const url = 'http://localhost:3000'
 
 export class Adapter{
+
+    static profiles = (steamid) => {
+        return fetch(`${url}/profiles/${steamid}`)
+        // .then(resp => resp.json())
+    }
+
     static ownedGames = (steamid) => {
         // console.log(steamid)
         return fetch(`${url}/games/${steamid}`)

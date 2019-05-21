@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Adapter from '../Adapter'
 
 export class Landing extends Component {
   state = {
@@ -20,10 +21,16 @@ export class Landing extends Component {
     console.log(e.target.value)
   }
 
-  // Pushes user to their statistics page that shows all of their achievements
-  handleSearch = (e) => {
+  // Pushes user to their statistics page that shows all of their achievements if user exists
+  handleSearch = async (e) => {
     e.preventDefault();
-    this.props.history.push({ pathname: `/user/steamid=${this.state.steamid}`, state: {steamid: this.state.steamid} })
+    const { steamid } = this.state
+    const profiles = await Adapter.profiles(steamid)
+    const status = await profiles.status
+    if ( status === 400) {
+      return this.props.history.push({ pathname: '/404', state: { steamid } })
+    }
+    this.props.history.push({ pathname: `/user/steamid=${this.state.steamid}`, state: { steamid } })
   }
 
   render() {

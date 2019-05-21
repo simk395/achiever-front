@@ -6,7 +6,7 @@ export class User extends Component {
 
   componentWillMount(){
     const { steamid } = this.props.location.state
-    Adapter.ownedGames(steamid).then(console.log)
+    Adapter.ownedGames(steamid).then(console.log).catch(error => this.props.history.push("/404"))
   }
 
   render() {
