@@ -1,7 +1,7 @@
 import React from 'react';
 import {Switch, Route } from 'react-router-dom'
 import Landing from './containers/Landing'
-import User from './containers/User'
+import User from './containers/Profile'
 import NotFound from './components/404'
 import './css/style.css';
 

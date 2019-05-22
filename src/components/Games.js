@@ -4,15 +4,17 @@ import Adapter from '../Adapter'
 export class Games extends Component {
     state = {
         ownedGames: [],
-        ownedGamesCopy: []
+        ownedGamesCopy: [],
+        displayedGames: []
     }
 
     // Will fetch owned games from Steam API to set into state
     componentDidMount(){
         const { steamId } = this.props
-        Adapter.ownedGames(steamId).then(games => this.setState({
-            ownedGames: games,
-            ownedGamesCopy: games
+        Adapter.ownedGames(steamId).then(allGames => this.setState({
+            ownedGames: allGames,
+            ownedGamesCopy: allGames,
+            displayedGames: allGames.games.slice(0, 10)
             }))
     }
 
@@ -26,9 +28,10 @@ export class Games extends Component {
         if ( games ) {
             games = games.slice(start, end)
         }
-        this.setState({ownedGamesCopy: games})
+        this.setState({ displayedGames: games })
     }
 
+    // Creates the amount of pages needed
     createPageNumbers = () => {
         const pageArr = []
         const { ownedGamesCopy } = this.state
@@ -40,15 +43,27 @@ export class Games extends Component {
         return pageArr
     }
 
+    // Creates card for game profile
+    gameProfile = (game) => {
+        return <li> 
+            <img className="games-img" src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg?t=1558546673`}></img>
+            {game.name} 
+        </li>
+    }
+
     render() {
         // console.log(this.props)
         const { steamId } = this.props
-        const { ownedGamesCopy, games } = this.state
+        const { ownedGamesCopy, displayedGames } = this.state
+        console.log(displayedGames)
         const pagesArr = this.createPageNumbers()
         return (
-            <div>
+            <div className="games">
+                <ul clasName="games-list">
+                    { displayedGames.map( game => this.gameProfile(game)) }
+                </ul>
                 <ul className="page-index">
-                    {pagesArr.map(pageNumber => <a href="#">{pageNumber}</a>)}
+                    { pagesArr.map(pageNumber => <button onClick={ () => this.divideOwnedGames(pageNumber) }> { pageNumber } </button>) }
                 </ul>
             </div>
         )

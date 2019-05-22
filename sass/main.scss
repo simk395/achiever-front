@@ -1,6 +1,8 @@
+@import 'abstract/mixins';
+@import 'abstract/variables';
 @import 'components/background';
 @import 'base/reset';
 @import 'base/typography';
 @import 'pages/landing';
 @import 'pages/error';
-@import 'pages/user';
+@import 'pages/profile';

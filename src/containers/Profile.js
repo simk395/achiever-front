@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
 import Games from '../components/Games'
+import User from '../components/User'
 
-export class User extends Component {
+export class Profile extends Component {
   render() {
     const { steamid } = this.props.location.state
     return (
-      <div>
+      <div className="profile">
+        <User/>
         <Games steamId={steamid}/>
       </div>
     )
   }
 }
 
-export default User
+export default Profile
