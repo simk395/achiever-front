@@ -1,6 +1,6 @@
 .profile{
     @include format;
-
+    padding-top: 5rem;
     & li{
         font-size: 1rem;
     }
@@ -9,7 +9,7 @@
 /* Users */
 
 .user{
-    height: 100vh;
+    height: 50vh;
     width: 100%;
     background: blue;
 }

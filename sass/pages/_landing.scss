@@ -1,5 +1,6 @@
 .landing{
-    @include format
+    @include format;
+    height: 100vh;
 }
 
 .title{
