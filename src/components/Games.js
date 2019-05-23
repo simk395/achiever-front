@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Adapter from '../Adapter'
+import Card from './GamesCard'
 
 export class Games extends Component {
     state = {
@@ -43,14 +44,6 @@ export class Games extends Component {
         return pageArr
     }
 
-    // Creates card for game profile
-    gameProfile = (game) => {
-        return <li> 
-            <img className="games-img" src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg?t=1558546673`}></img>
-            {game.name} 
-        </li>
-    }
-
     render() {
         // console.log(this.props)
         const { steamId } = this.props
@@ -60,7 +53,7 @@ export class Games extends Component {
         return (
             <div className="games">
                 <ul clasName="games-list">
-                    { displayedGames.map( game => this.gameProfile(game)) }
+                    { displayedGames.map( game => <Card game={game} gamesArr={displayedGames}/>) }
                 </ul>
                 <ul className="page-index">
                     { pagesArr.map(pageNumber => <button onClick={ () => this.divideOwnedGames(pageNumber) }> { pageNumber } </button>) }

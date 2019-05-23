@@ -19,6 +19,15 @@
 .games{
     width: 100%;
     background: red;
+    
+    &-card{
+        display:flex;
+        flex-direction: row;
+    }
+
+    &-info{
+        font-size: 2rem;
+    }
 
     &-img{
         width: 40rem;

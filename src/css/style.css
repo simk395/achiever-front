@@ -49,6 +49,11 @@
 .games {
   width: 100%;
   background: red; }
+  .games-card {
+    display: flex;
+    flex-direction: row; }
+  .games-info {
+    font-size: 2rem; }
   .games-img {
     width: 40rem; }
 
