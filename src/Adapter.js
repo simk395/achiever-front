@@ -14,6 +14,12 @@ export class Adapter{
         .catch(error => console.log(error))
     }
 
+    static schema = (appid) => {
+        return fetch(`${url}/schema/${appid}`)
+        .then(resp => resp.json())
+        .catch(error => console.log(error))
+    }
+
     static achievements = (appid, steamid) => {
         // console.log('appid:', appid, 'steamid:', steamid)
         return fetch(`${url}/achievements/${appid}/${steamid}`)

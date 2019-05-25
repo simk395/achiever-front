@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import Adapter from '../Adapter'
 import Card from './GamesCard'
+import { createReadStream } from 'fs';
 
 export class Games extends Component {
     state = {
         ownedGames: [],
         ownedGamesCopy: [],
-        displayedGames: []
+        displayedGames: [],
     }
 
     // Will fetch owned games from Steam API to set into state
@@ -17,6 +18,13 @@ export class Games extends Component {
             ownedGamesCopy: allGames,
             displayedGames: allGames.games.slice(0, 10)
             }))
+    }
+
+    shouldComponentUpdate(nextState) {
+        if (nextState === this.state){
+            return false
+        }
+        return true
     }
 
     // Gets games in intervals of 10 based on page number
@@ -48,12 +56,11 @@ export class Games extends Component {
         // console.log(this.props)
         const { steamId } = this.props
         const { ownedGamesCopy, displayedGames } = this.state
-        console.log(displayedGames)
         const pagesArr = this.createPageNumbers()
         return (
             <div className="games">
-                <ul clasName="games-list">
-                    { displayedGames.map( game => <Card game={game} gamesArr={displayedGames}/>) }
+                <ul className="games-list">
+                    { displayedGames.map(game => <Card game={game} steamId={steamId}/>) }
                 </ul>
                 <ul className="page-index">
                     { pagesArr.map(pageNumber => <button onClick={ () => this.divideOwnedGames(pageNumber) }> { pageNumber } </button>) }
