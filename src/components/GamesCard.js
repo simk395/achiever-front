@@ -22,33 +22,34 @@ export class GamesCard extends Component {
         }
     }
 
-
-
-    // findAchievement = (appid) => {
-    //     const { achievements } = this.state
-    //     const result = {}
-    //     // console.log(achievements)
-        
-    //     // achievements.allAchievements.forEach( game => console.log(game))
-
-    // }
-
+    // changes value of allAchievements.defaultvalue to 1 to indicate if achievement was unlocked by going through some validations
+    findAchieved = () => {
+        const { allAchievements } = this.state
+        const { achievements } = this.state.playerAchievements.player_achievements || []
+        if ( achievements && achievements.length > 0) {
+            achievements.map(achievement => {
+                if ( achievement.achieved === 1 && allAchievements.achievements !== undefined) {
+                    const achieved = allAchievements.achievements.find(search => search.name === achievement.apiname)
+                    achieved.defaultvalue = 1
+                }
+            })
+        }
+    }
 
     render() {
         // console.log(this.props)
-        const { game, achievements } = this.props
-        console.log(this.state.allAchievements)
-        const { allAchievements, playerAchievements } = this.state
-        // const achieve = this.findAchievement(game.appid)
-        // console.log( achievements.allAchievements )
-       
+        const { game } = this.props
+        const { allAchievements, playerAchievements } = this.state 
+        // console.log("allachievements", allAchievements, 'playerachievements', playerAchievements)      
+        // console.log(playerAchievements)
+        this.findAchieved()
         return (
             <li className='games-card'> 
                 <img className="games-img" src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg?t=1558546673`}></img>
                 <div className='games-info'>
                     <h2>{game.name}</h2>
                     <p>Time Played: { Math.floor(game.playtime_forever/60) } hours</p>
-                    { allAchievements.achievements ? allAchievements.achievements.map( achievements =>  <img src={achievements.icon}/>): null}
+                    { allAchievements.achievements ? allAchievements.achievements.map( achievements =>  achievements.defaultvalue === 1 ? <img src={achievements.icon}/> : <img src={achievements.icongray}/>) : null}
                 </div>
             </li>
         )
