@@ -38,13 +38,37 @@ export class GamesCard extends Component {
         }
     }
 
+    // Sorts the achievements so that it shows the unlocked achievements first
+    sortAchieved = () => {
+        const { allAchievements } = this.state
+        const achievements = []
+        if ( allAchievements.achievements ){
+            if ( allAchievements.achievements.length > 0 ){
+                const unlocked = allAchievements.achievements.filter(achievement => achievement.defaultvalue === 1)
+                const locked = allAchievements.achievements.filter(achievement => achievement.defaultvalue === 0)
+                achievements.push(unlocked,locked)
+                allAchievements.achievements  = achievements.flat()
+            }
+        }
+    }
+
+    displayAchieved = () => {
+        const { allAchievements } = this.state
+        if ( allAchievements.achievements ) {
+            const display = allAchievements.achievements.slice(0, 10)
+            allAchievements.achievements = display
+        }
+    }
+
     render() {
         // console.log(this.props)
         const { game } = this.props
         const { allAchievements, playerAchievements } = this.state 
         // console.log("allachievements", allAchievements, 'playerachievements', playerAchievements)      
-        console.log(allAchievements.achievements.sort(achievement => achievement.defaultvalue === 1))
+        // console.log(allAchievements.achievements.sort(achievement => achievement.defaultvalue === 1))
         this.findAchieved()
+        this.sortAchieved()
+        this.displayAchieved()
         return (
             <li className='games-card'> 
                 <img className="games-img" src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg?t=1558546673`}></img>
