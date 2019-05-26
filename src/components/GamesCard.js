@@ -30,7 +30,9 @@ export class GamesCard extends Component {
             achievements.map(achievement => {
                 if ( achievement.achieved === 1 && allAchievements.achievements !== undefined) {
                     const achieved = allAchievements.achievements.find(search => search.name === achievement.apiname)
-                    achieved.defaultvalue = 1
+                    if (achieved) {
+                        achieved.defaultvalue = 1;
+                    }
                 }
             })
         }
@@ -41,7 +43,7 @@ export class GamesCard extends Component {
         const { game } = this.props
         const { allAchievements, playerAchievements } = this.state 
         // console.log("allachievements", allAchievements, 'playerachievements', playerAchievements)      
-        // console.log(playerAchievements)
+        console.log(allAchievements.achievements.sort(achievement => achievement.defaultvalue === 1))
         this.findAchieved()
         return (
             <li className='games-card'> 
