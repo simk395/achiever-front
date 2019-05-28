@@ -4,7 +4,8 @@ import Adapter from '../Adapter'
 export class GamesCard extends Component {
     state = {
         allAchievements: [],
-        playerAchievements: []
+        playerAchievements: [],
+        displayAchievements: []
     }
 
     componentDidMount(){
@@ -23,8 +24,7 @@ export class GamesCard extends Component {
     }
 
     // changes value of allAchievements.defaultvalue to 1 to indicate if achievement was unlocked by going through some validations
-    findAchieved = () => {
-        const { allAchievements } = this.state
+    findAchieved = (allAchievements) => {
         const { achievements } = this.state.playerAchievements.player_achievements || []
         if ( achievements && achievements.length > 0) {
             achievements.map(achievement => {
@@ -36,11 +36,11 @@ export class GamesCard extends Component {
                 }
             })
         }
+        return allAchievements
     }
 
     // Sorts the achievements so that it shows the unlocked achievements first
-    sortAchieved = () => {
-        const { allAchievements } = this.state
+    sortAchieved = (allAchievements) => {
         const achievements = []
         if ( allAchievements.achievements ){
             if ( allAchievements.achievements.length > 0 ){
@@ -50,32 +50,45 @@ export class GamesCard extends Component {
                 allAchievements.achievements  = achievements.flat()
             }
         }
+        return allAchievements
+    }
+    
+    countAchieved = (allAchievements) => {
+        if ( allAchievements.achievements ) {
+            if ( allAchievements.achievements.length > 0) {
+                const achieved = allAchievements.achievements.filter(achievement => achievement.defaultvalue === 1)
+                console.log(achieved.length)
+            }
+        }
     }
 
-    displayAchieved = () => {
-        const { allAchievements } = this.state
+    displayAchieved = (allAchievements) => {
         if ( allAchievements.achievements ) {
-            const display = allAchievements.achievements.slice(0, 10)
-            allAchievements.achievements = display
+            if ( allAchievements.achievements.length > 0) {
+                const display = allAchievements.achievements.slice(0, 6)
+                return display
+            }
         }
     }
 
     render() {
         // console.log(this.props)
         const { game } = this.props
-        const { allAchievements, playerAchievements } = this.state 
-        // console.log("allachievements", allAchievements, 'playerachievements', playerAchievements)      
-        // console.log(allAchievements.achievements.sort(achievement => achievement.defaultvalue === 1))
-        this.findAchieved()
-        this.sortAchieved()
-        this.displayAchieved()
+        const { allAchievements } = this.state 
+        const { achievements } = allAchievements
+        const numberOfAchievements = achievements ? achievements.length : 0
+        const search = this.findAchieved(allAchievements)
+        const sort = this.sortAchieved(search)
+        const unlockedAchievements = this.countAchieved(search)
+        const display = this.displayAchieved(sort)
         return (
             <li className='games-card'> 
                 <img className="games-img" src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/header.jpg?t=1558546673`}></img>
                 <div className='games-info'>
                     <h2>{game.name}</h2>
                     <p>Time Played: { Math.floor(game.playtime_forever/60) } hours</p>
-                    { allAchievements.achievements ? allAchievements.achievements.map( achievements =>  achievements.defaultvalue === 1 ? <img src={achievements.icon}/> : <img src={achievements.icongray}/>) : null}
+                    {/* { unlockedAchievements !== undefined ? <p>{unlockedAchievements} out of {numberOfAchievements} unlocked</p> : <p>No Achievements Available</p>} */}
+                    { display.achievements ? display.achievements.map( achievements =>  achievements.defaultvalue === 1 ? <img src={achievements.icon}/> : <img src={achievements.icongray}/>) : null}
                 </div>
             </li>
         )

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Adapter from '../Adapter'
 import Card from './GamesCard'
-import { createReadStream } from 'fs';
 
 export class Games extends Component {
     state = {
